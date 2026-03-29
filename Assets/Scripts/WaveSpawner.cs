@@ -17,13 +17,46 @@ public class WaveSpawner : MonoBehaviour
     {
         for (int wave = 1; wave <= 4; wave++)
         {
-            int totalSpawnEnemies = 4 + (wave - 1) * 2;
+            int totalSpawnEnemies = 0;
+            int numberOfRandomSpawnPoint = 0;
+            float delayStart = 0f;
+            float spawnInterval = 0f;
+            int numberOfPowerUp = 0;
 
-            int numberOfRandomSpawnPoint = (wave == 3) ? 4 : wave;
+            if (wave == 1)
+            {
+                totalSpawnEnemies = 4;
+                numberOfRandomSpawnPoint = 1;
+                delayStart = 2f;
+                spawnInterval = 2.0f;
+                numberOfPowerUp = 0;
+            }
+            else if (wave == 2)
+            {
+                totalSpawnEnemies = 6;
+                numberOfRandomSpawnPoint = 2;
+                delayStart = 2f;
+                spawnInterval = 2.0f;
+                numberOfPowerUp = 1;
+            }
+            else if (wave == 3)
+            {
+                totalSpawnEnemies = 8;
+                numberOfRandomSpawnPoint = 4;
+                delayStart = 2f;
+                spawnInterval = 2.0f;
+                numberOfPowerUp = 1;
+            }
+            else if (wave == 4)
+            {
+                totalSpawnEnemies = 10;
+                numberOfRandomSpawnPoint = 6;
+                delayStart = 5f;
+                spawnInterval = 0.5f;
+                numberOfPowerUp = 2;
+            }
 
-            float delayStart = 2f;
-            float spawnInterval = 2f;
-            int numberOfPowerUp = (wave == 1) ? 0 : 1;
+            Debug.Log("Wave " + wave + " START");
 
             List<Transform> selectedPoints = GetRandomPoints(numberOfRandomSpawnPoint);
 
@@ -46,6 +79,8 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitUntil(() =>
                 GameObject.FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length == 0
             );
+
+            Debug.Log("Wave " + wave + " END");
         }
     }
 
@@ -58,7 +93,7 @@ public class WaveSpawner : MonoBehaviour
         {
             int rand = Random.Range(0, temp.Count);
             result.Add(temp[rand]);
-            temp.RemoveAt(rand); // ??????
+            temp.RemoveAt(rand);
         }
 
         return result;
